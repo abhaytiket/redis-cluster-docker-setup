@@ -1,0 +1,53 @@
+services:
+  redis-production-cluster-creator:
+    image: redis:7.2.5
+    command: redis-cli -p 6379 --cluster create redis-production-cluster-node1:7001 redis-production-cluster-node2:7002 redis-production-cluster-node3:7003 redis-production-cluster-node4:7004 redis-production-cluster-node5:7005 redis-production-cluster-node6:7006 --cluster-replicas 1 --cluster-yes
+    depends_on:
+      - redis-cluster-node1
+      - redis-cluster-node2
+      - redis-cluster-node3
+      - redis-cluster-node4
+      - redis-cluster-node5
+      - redis-cluster-node6
+  redis-production-cluster-node1:
+    image: redis:7.2.5
+    volumes:
+      - ./config/production/node1:/redis
+    command: redis-server /redis/redis.conf
+    ports:
+      - "7001:7001"
+  redis-production-cluster-node2:
+    image: redis:7.2.5
+    volumes:
+      - ./config/production/node2:/redis
+    command: redis-server /redis/redis.conf
+    ports:
+      - "7002:7002"
+  redis-production-cluster-node3:
+    image: redis:7.2.5
+    volumes:
+      - ./config/production/node3:/redis
+    command: redis-server /redis/redis.conf
+    ports:
+      - "7003:7003"
+  redis-production-cluster-node4:
+    image: redis:7.2.5
+    volumes:
+      - ./config/production/node4:/redis
+    command: redis-server /redis/redis.conf
+    ports:
+      - "7004:7004"  
+  redis-production-cluster-node5:
+    image: redis:7.2.5
+    volumes:
+      - ./config/production/node5:/redis
+    command: redis-server /redis/redis.conf
+    ports:
+      - "7005:7005"
+  redis-production-cluster-node6:
+    image: redis:7.2.5
+    volumes:
+      - ./config/production/node6:/redis
+    command: redis-server /redis/redis.conf
+    ports:
+      - "7006:7006"

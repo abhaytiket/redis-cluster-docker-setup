@@ -1,0 +1,29 @@
+services:
+  redis-staging-cluster-creator:
+    image: redis:7.2.5
+    command: redis-cli -p 6379 --cluster create redis-staging-cluster-node1:7001 redis-staging-cluster-node2:7002 redis-staging-cluster-node3:7003 --cluster-replicas 0 --cluster-yes
+    depends_on:
+      - redis-cluster-node1
+      - redis-cluster-node2
+      - redis-cluster-node3
+  redis-staging-cluster-node1:
+    image: redis:7.2.5
+    volumes:
+      - ./config/staging/node1:/redis
+    command: redis-server /redis/redis.conf
+    ports:
+      - "7001:7001"
+  redis-staging-cluster-node2:
+    image: redis:7.2.5
+    volumes:
+      - ./config/staging/node2:/redis
+    command: redis-server /redis/redis.conf 
+    ports:
+      - "7002:7002"
+  redis-staging-cluster-node3:
+    image: redis:7.2.5
+    volumes:
+      - ./config/staging/node3:/redis
+    command: redis-server /redis/redis.conf
+    ports:
+      - "7003:7003"
