@@ -1,53 +1,75 @@
 services:
-  redis-production-cluster-creator:
-    image: redis:7.2.5
-    command: redis-cli -p 6379 --cluster create redis-production-cluster-node1:7001 redis-production-cluster-node2:7002 redis-production-cluster-node3:7003 redis-production-cluster-node4:7004 redis-production-cluster-node5:7005 redis-production-cluster-node6:7006 --cluster-replicas 1 --cluster-yes
-    depends_on:
-      - redis-production-cluster-node1
-      - redis-production-cluster-node2
-      - redis-production-cluster-node3
-      - redis-production-cluster-node4
-      - redis-production-cluster-node5
-      - redis-production-cluster-node6
   redis-production-cluster-node1:
-    image: redis:7.2.5
-    volumes:
-      - ./config/production/node1:/redis
-    command: redis-server /redis/redis.conf
+    image: bitnami/redis-cluster:7.2.5
+    container_name: redis-production-cluster-node1
     ports:
-      - "7001:7001"
+      - 6370:6370
+      - 16370:16370
+    environment:
+      REDIS_CLUSTER_DYNAMIC_IPS: no
+      REDIS_CLUSTER_ANNOUNCE_IP: 192.168.29.94
+      REDIS_PORT_NUMBER: 6370
+      ALLOW_EMPTY_PASSWORD: yes
+      REDIS_NODES: 192.168.29.94:6370 192.168.29.94:6371 192.168.29.94:6372 192.168.29.94:6373 192.168.29.94:6374 192.168.29.94:6375
   redis-production-cluster-node2:
-    image: redis:7.2.5
-    volumes:
-      - ./config/production/node2:/redis
-    command: redis-server /redis/redis.conf
+    image: bitnami/redis-cluster:7.2.5
+    container_name: redis-production-cluster-node2
     ports:
-      - "7002:7002"
+      - 6371:6371
+      - 16371:16371
+    environment:
+      REDIS_CLUSTER_DYNAMIC_IPS: no
+      REDIS_CLUSTER_ANNOUNCE_IP: 192.168.29.94
+      REDIS_PORT_NUMBER: 6371
+      ALLOW_EMPTY_PASSWORD: yes
+      REDIS_NODES: 192.168.29.94:6370 192.168.29.94:6371 192.168.29.94:6372 192.168.29.94:6373 192.168.29.94:6374 192.168.29.94:6375
   redis-production-cluster-node3:
-    image: redis:7.2.5
-    volumes:
-      - ./config/production/node3:/redis
-    command: redis-server /redis/redis.conf
+    image: bitnami/redis-cluster:7.2.5
+    container_name: redis-production-cluster-node3
     ports:
-      - "7003:7003"
+      - 6372:6372
+      - 16372:16372
+    environment:
+      REDIS_CLUSTER_DYNAMIC_IPS: no
+      REDIS_CLUSTER_ANNOUNCE_IP: 192.168.29.94
+      REDIS_PORT_NUMBER: 6372
+      ALLOW_EMPTY_PASSWORD: yes
+      REDIS_NODES: 192.168.29.94:6370 192.168.29.94:6371 192.168.29.94:6372 192.168.29.94:6373 192.168.29.94:6374 192.168.29.94:6375
   redis-production-cluster-node4:
-    image: redis:7.2.5
-    volumes:
-      - ./config/production/node4:/redis
-    command: redis-server /redis/redis.conf
+    image: bitnami/redis-cluster:7.2.5
+    container_name: redis-production-cluster-node4
     ports:
-      - "7004:7004"  
+      - 6373:6373
+      - 16373:16373
+    environment:
+      REDIS_CLUSTER_DYNAMIC_IPS: no
+      REDIS_CLUSTER_ANNOUNCE_IP: 192.168.29.94
+      REDIS_PORT_NUMBER: 6373
+      ALLOW_EMPTY_PASSWORD: yes
+      REDIS_NODES: 192.168.29.94:6370 192.168.29.94:6371 192.168.29.94:6372 192.168.29.94:6373 192.168.29.94:6374 192.168.29.94:6375
   redis-production-cluster-node5:
-    image: redis:7.2.5
-    volumes:
-      - ./config/production/node5:/redis
-    command: redis-server /redis/redis.conf
+    image: bitnami/redis-cluster:7.2.5
+    container_name: redis-production-cluster-node5
     ports:
-      - "7005:7005"
+      - 6374:6374
+      - 16374:16374
+    environment:
+      REDIS_CLUSTER_DYNAMIC_IPS: no
+      REDIS_CLUSTER_ANNOUNCE_IP: 192.168.29.94
+      REDIS_PORT_NUMBER: 6374
+      ALLOW_EMPTY_PASSWORD: yes
+      REDIS_NODES: 192.168.29.94:6370 192.168.29.94:6371 192.168.29.94:6372 192.168.29.94:6373 192.168.29.94:6374 192.168.29.94:6375
   redis-production-cluster-node6:
-    image: redis:7.2.5
-    volumes:
-      - ./config/production/node6:/redis
-    command: redis-server /redis/redis.conf
+    image: bitnami/redis-cluster:7.2.5
+    container_name: redis-production-cluster-node6
     ports:
-      - "7006:7006"
+      - 6375:6375
+      - 16375:16375
+    environment:
+      REDIS_CLUSTER_DYNAMIC_IPS: no
+      REDIS_CLUSTER_ANNOUNCE_IP: 192.168.29.94
+      REDIS_PORT_NUMBER: 6375
+      ALLOW_EMPTY_PASSWORD: yes
+      REDIS_NODES: 192.168.29.94:6370 192.168.29.94:6371 192.168.29.94:6372 192.168.29.94:6373 192.168.29.94:6374 192.168.29.94:6375
+      REDIS_CLUSTER_REPLICAS: 1
+      REDIS_CLUSTER_CREATOR: yes

@@ -1,29 +1,51 @@
 services:
-  redis-staging-cluster-creator:
-    image: redis:7.2.5
-    command: redis-cli -p 6379 --cluster create redis-staging-cluster-node1:7001 redis-staging-cluster-node2:7002 redis-staging-cluster-node3:7003 --cluster-replicas 0 --cluster-yes
-    depends_on:
-      - redis-staging-cluster-node1
-      - redis-staging-cluster-node2
-      - redis-staging-cluster-node3
   redis-staging-cluster-node1:
-    image: redis:7.2.5
-    volumes:
-      - ./config/staging/node1:/redis
-    command: redis-server /redis/redis.conf
+    image: bitnami/redis-cluster:7.2.5
+    container_name: redis-staging-cluster-node1
     ports:
-      - "7001:7001"
+      - 6376:6376
+      - 16376:16376
+    environment:
+      REDIS_CLUSTER_DYNAMIC_IPS: no
+      REDIS_CLUSTER_ANNOUNCE_IP: 192.168.29.94
+      REDIS_PORT_NUMBER: 6376
+      ALLOW_EMPTY_PASSWORD: yes
+      REDIS_NODES: 192.168.29.94:6376 192.168.29.94:6377 192.168.29.94:6378 192.168.29.94:6380
   redis-staging-cluster-node2:
-    image: redis:7.2.5
-    volumes:
-      - ./config/staging/node2:/redis
-    command: redis-server /redis/redis.conf 
+    image: bitnami/redis-cluster:7.2.5
+    container_name: redis-staging-cluster-node2
     ports:
-      - "7002:7002"
+      - 6377:6377
+      - 16377:16377
+    environment:
+      REDIS_CLUSTER_DYNAMIC_IPS: no
+      REDIS_CLUSTER_ANNOUNCE_IP: 192.168.29.94
+      REDIS_PORT_NUMBER: 6377
+      ALLOW_EMPTY_PASSWORD: yes
+      REDIS_NODES: 192.168.29.94:6377 192.168.29.94:6377 192.168.29.94:6378 192.168.29.94:6380
   redis-staging-cluster-node3:
-    image: redis:7.2.5
-    volumes:
-      - ./config/staging/node3:/redis
-    command: redis-server /redis/redis.conf
+    image: bitnami/redis-cluster:7.2.5
+    container_name: redis-staging-cluster-node3
     ports:
-      - "7003:7003"
+      - 6378:6378
+      - 16378:16378
+    environment:
+      REDIS_CLUSTER_DYNAMIC_IPS: no
+      REDIS_CLUSTER_ANNOUNCE_IP: 192.168.29.94
+      REDIS_PORT_NUMBER: 6378
+      ALLOW_EMPTY_PASSWORD: yes
+      REDIS_NODES: 192.168.29.94:6377 192.168.29.94:6377 192.168.29.94:6378 192.168.29.94:6380
+  redis-staging-cluster-node4:
+    image: bitnami/redis-cluster:7.2.5
+    container_name: redis-staging-cluster-node4
+    ports:
+      - 6380:6380
+      - 16380:16380
+    environment:
+      REDIS_CLUSTER_DYNAMIC_IPS: no
+      REDIS_CLUSTER_ANNOUNCE_IP: 192.168.29.94
+      REDIS_PORT_NUMBER: 6380
+      ALLOW_EMPTY_PASSWORD: yes
+      REDIS_NODES: 192.168.29.94:6377 192.168.29.94:6377 192.168.29.94:6378 192.168.29.94:6380
+      REDIS_CLUSTER_REPLICAS: 0
+      REDIS_CLUSTER_CREATOR: yes
